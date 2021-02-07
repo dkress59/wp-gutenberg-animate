@@ -1,7 +1,7 @@
 {
 	"apiVersion": 2,
 	"name": "create-block/animate-wp-blocks",
-	"title": "Test Block",
+	"title": "Animate WP Blocks",
 	"category": "widgets",
 	"icon": "smiley",
 	"description": "Example block written with ESNext standard and JSX support – build step required.",

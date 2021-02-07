@@ -1,4 +1,4 @@
-=== Test Block ===
+=== Animate WP Blocks ===
 Contributors:      dkress59
 Tags:              block
 Requires at least: 5.0.0
