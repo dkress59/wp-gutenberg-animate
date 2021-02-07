@@ -4,11 +4,11 @@ Tags:              block
 Requires at least: 5.0.0
 Tested up to:      5.6.1
 Stable tag:        2.0.1
-Requires PHP:      5.6.0
+Requires PHP:      5.4.0
 License:           GPL-2.0-or-later
 License URI:       https://www.gnu.org/licenses/gpl-2.0.html
 
-Example block written with ESNext standard and JSX support – build step required.
+Add animation controls to each and every Gutenberg Block! Runs on Animate.css v4.
 
 == Description ==
 
@@ -19,23 +19,25 @@ Markdown parsed.
 
 == Installation ==
 
-This section describes how to install the plugin and get it working.
+You can simply install this plugin to your WordPress installation and you are ready to go!
 
-e.g.
-
-1. Upload the plugin files to the `/wp-content/plugins/animate-wp-blocks` directory, or install the plugin through the WordPress plugins screen directly.
-1. Activate the plugin through the 'Plugins' screen in WordPress
+* Upload the plugin files to the `/wp-content/plugins/animate-wp-blocks` directory, or install the plugin through the WordPress plugins screen directly.
+* Activate the plugin through the 'Plugins' screen in WordPress
 
 
 == Frequently Asked Questions ==
 
-= A question that someone might have =
+= Are there additional requirements to this Plugin? =
 
-An answer to that question.
+No, this plugin ships packaged with Animate.css v4. You can use Animate.css anywhere on your WordPress site out-of-the-box, but the plugin loads an additional script for the Gutenberg Block integration. 
 
-= What about foo bar? =
+= Will this work anywhere on my WordPress site? =
 
-Answer to foo bar dilemma.
+With this plugin you can take full advantage of Animate.css anywhere on your site. The Animation Controls are available everywhere, where the Gutenberg Block Editor is used (e.g. any page or post).
+
+= Which particular blocks will this work with? =
+
+Animations Controls are instantly available on **any block** upon plugin activation, including third-party and custom blocks! _Check out details on how to limit animation controls to certain blocks in the [source code](https://github.com/dkress59/wp-gutenberg-animate) on GitHub._
 
 == Screenshots ==
 
@@ -47,11 +49,10 @@ directory take precedence. For example, `/assets/screenshot-1.png` would win ove
 
 == Changelog ==
 
-= 0.1.0 =
+= 2.0.1 =
 * Release
+* Imports WordPress NPM dependencies and pre-packages them
+* 
 
-== Arbitrary section ==
-
-You may provide arbitrary sections, in the same format as the ones above. This may be of use for extremely complicated
-plugins where more information needs to be conveyed that doesn't fit into the categories of "description" or
-"installation." Arbitrary sections will be shown below the built-in sections outlined above.
+= 2.0.0 =
+* switch from Animate.css v3 to v4.

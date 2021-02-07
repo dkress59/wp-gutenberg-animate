@@ -170,10 +170,10 @@
 /************************************************************************/
 /******/ ({
 
-/***/ "./src/animations.js":
-/*!***************************!*\
-  !*** ./src/animations.js ***!
-  \***************************/
+/***/ "./src/assets/animations.js":
+/*!**********************************!*\
+  !*** ./src/assets/animations.js ***!
+  \**********************************/
 /*! exports provided: animations, animationClassNames, default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -317,9 +317,20 @@ var animationClassNames = [['Attention seekers', '', true], // Attention seekers
 
 /***/ }),
 
-/***/ "./src/block.js":
+/***/ "./src/editor.scss":
+/*!*************************!*\
+  !*** ./src/editor.scss ***!
+  \*************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+// extracted by mini-css-extract-plugin
+
+/***/ }),
+
+/***/ "./src/index.js":
 /*!**********************!*\
-  !*** ./src/block.js ***!
+  !*** ./src/index.js ***!
   \**********************/
 /*! exports provided: addAnimateBlockControls, addAttribute, addSaveProps */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
@@ -335,7 +346,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _editor_scss__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_editor_scss__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _style_scss__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./style.scss */ "./src/style.scss");
 /* harmony import */ var _style_scss__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_style_scss__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _animations__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./animations */ "./src/animations.js");
+/* harmony import */ var _assets_animations__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./assets/animations */ "./src/assets/animations.js");
 /* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! lodash */ "lodash");
 /* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_4__);
 /* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @wordpress/i18n */ "@wordpress/i18n");
@@ -364,7 +375,7 @@ __webpack_require__.r(__webpack_exports__);
  * adding our custom control.
  *
  * @param {Function | Component} BlockEdit Original component.
- *
+ * 
  * @return {string} Wrapped component.
  */
 
@@ -378,7 +389,7 @@ var addAnimateBlockControls = Object(_wordpress_compose__WEBPACK_IMPORTED_MODULE
         gbaDuration = _props$attributes.gbaDuration,
         gbaDelay = _props$attributes.gbaDelay,
         gbaRepeat = _props$attributes.gbaRepeat;
-    var options = _animations__WEBPACK_IMPORTED_MODULE_3__["animationClassNames"].map(function (a) {
+    var options = _assets_animations__WEBPACK_IMPORTED_MODULE_3__["animationClassNames"].map(function (a) {
       return {
         label: a[0],
         value: a[1],
@@ -453,24 +464,6 @@ var addAnimateBlockControls = Object(_wordpress_compose__WEBPACK_IMPORTED_MODULE
     return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(BlockEdit, props);
   };
 }, 'addAnimateBlockControls');
-Object(_wordpress_hooks__WEBPACK_IMPORTED_MODULE_6__["addFilter"])('editor.BlockEdit', 'dk-gb/animate', addAnimateBlockControls);
-
-function isValidBlockType(name) {
-  /**
-   * You can use this function to only selectively
-   * enable animation options for certain blocks:
-   *
-   * 1) comment out the next line
-   * 2) comment out the corresponding strings in
-   *		validBlockTypes for the blocks which you
-   *		would like to disable
-   *
-   */
-  return true; // eslint-disable-next-line no-unreachable
-
-  var validBlockTypes = ['core/paragraph', 'core/image', 'core/heading', 'core/gallery', 'core/list', 'core/quote', 'core/shortcode', 'core/archives', 'core/audio', 'core/button', 'core/categories', 'core/code', 'core/columns', 'core/column', 'core/cover-image', 'core/embed', 'core/file', 'core/freeform', 'core/html', 'core/latest-comments', 'core/latest-posts', 'core/more', 'core/nextpage', 'core/preformatted', 'core/pullquote', 'core/separator', 'core/block', 'core/spacer', 'core/subhead', 'core/table', 'core/template', 'core/text-columns', 'core/verse', 'core/video', 'core-embed/twitter', 'core-embed/youtube', 'core-embed/facebook', 'core-embed/instagram', 'core-embed/wordpress', 'core-embed/soundcloud', 'core-embed/spotify', 'core-embed/flickr', 'core-embed/vimeo', 'core-embed/animoto', 'core-embed/cloudup', 'core-embed/collegehumor', 'core-embed/dailymotion', 'core-embed/funnyordie', 'core-embed/hulu', 'core-embed/imgur', 'core-embed/issuu', 'core-embed/kickstarter', 'core-embed/meetup-com', 'core-embed/mixcloud', 'core-embed/photobucket', 'core-embed/polldaddy', 'core-embed/reddit', 'core-embed/reverbnation', 'core-embed/screencast', 'core-embed/scribd', 'core-embed/slideshare', 'core-embed/smugmug', 'core-embed/speaker', 'core-embed/speaker-deck', 'core-embed/ted', 'core-embed/tumblr', 'core-embed/videopress', 'core-embed/wordpress-tv'];
-  return validBlockTypes.includes(name);
-}
 /**
  * Filters registered block settings, extending attributes with our custom data.
  *
@@ -478,7 +471,6 @@ function isValidBlockType(name) {
  *
  * @return {Object} Filtered block settings.
  */
-
 
 function addAttribute(settings) {
   if (isValidBlockType(settings.name)) // Use Lodash's assign to gracefully handle if attributes are undefined
@@ -505,63 +497,43 @@ function addAttribute(settings) {
  * @param {Object} extraProps Additional props applied to save element.
  * @param {Object} blockType  Block type.
  * @param {Object} attributes Current block attributes.
- *
+ * 
  * @return {Object} Filtered props applied to save element.
  */
 
 function addSaveProps(extraProps, blockType, attributes) {
   // If the current block is valid, add our prop.
-  // Comment out the next line to make the features accessible to ANY GB Block (experimental)
   if (isValidBlockType(blockType.name)) {
-    if (!attributes.gbaType || attributes.gbaType === '') //extraProps['data-animated'] = false
-      return;
+    if (!attributes.gbaType || attributes.gbaType === '') return;
     extraProps['data-animation'] = attributes.gbaType;
     extraProps['data-animated'] = true;
     extraProps['data-duration'] = attributes.gbaDuration;
     extraProps['data-delay'] = attributes.gbaDelay;
-    extraProps['data-repeat'] = attributes.gbaRepeat; // Comment out the next line to make the features accessible to ANY GB Block (experimental)
+    extraProps['data-repeat'] = attributes.gbaRepeat;
   }
 
   return extraProps;
-} // end addSaveProps()
+}
+Object(_wordpress_hooks__WEBPACK_IMPORTED_MODULE_6__["addFilter"])('editor.BlockEdit', 'dkress/gb-animate', addAnimateBlockControls);
+Object(_wordpress_hooks__WEBPACK_IMPORTED_MODULE_6__["addFilter"])('blocks.registerBlockType', 'dkress/gb-animate/add-attr', addAttribute);
+Object(_wordpress_hooks__WEBPACK_IMPORTED_MODULE_6__["addFilter"])('blocks.getSaveContent.extraProps', 'dkress/gb-animate/add-props', addSaveProps);
 
-Object(_wordpress_hooks__WEBPACK_IMPORTED_MODULE_6__["addFilter"])('blocks.registerBlockType', 'dk-animate-gutenberg/add-attr', addAttribute);
-Object(_wordpress_hooks__WEBPACK_IMPORTED_MODULE_6__["addFilter"])('blocks.getSaveContent.extraProps', 'dk-animate-gutenberg/add-props', addSaveProps);
+function isValidBlockType(name) {
+  /**
+   * You can use this function to only selectively
+   * enable animation options for certain blocks:
+   *
+   * 1) comment out the next line
+   * 2) comment out the corresponding strings in
+   *		validBlockTypes for the blocks which you
+   *		would like to disable
+   *
+   */
+  return true; // eslint-disable-next-line no-unreachable
 
-/***/ }),
-
-/***/ "./src/editor.scss":
-/*!*************************!*\
-  !*** ./src/editor.scss ***!
-  \*************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-// extracted by mini-css-extract-plugin
-
-/***/ }),
-
-/***/ "./src/index.js":
-/*!**********************!*\
-  !*** ./src/index.js ***!
-  \**********************/
-/*! no exports provided */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _block_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./block.js */ "./src/block.js");
-/**
- * Gutenberg Blocks
- *
- * All blocks related JavaScript files should be imported here.
- * You can create a new block folder in this dir and include code
- * for that block here as well.
- *
- * All blocks should be included here since this is the file that
- * Webpack is compiling as the input file.
- */
- //import './components/format.js'
+  var validBlockTypes = ['core/paragraph', 'core/image', 'core/heading', 'core/gallery', 'core/list', 'core/quote', 'core/shortcode', 'core/archives', 'core/audio', 'core/button', 'core/categories', 'core/code', 'core/columns', 'core/column', 'core/cover-image', 'core/embed', 'core/file', 'core/freeform', 'core/html', 'core/latest-comments', 'core/latest-posts', 'core/more', 'core/nextpage', 'core/preformatted', 'core/pullquote', 'core/separator', 'core/block', 'core/spacer', 'core/subhead', 'core/table', 'core/template', 'core/text-columns', 'core/verse', 'core/video', 'core-embed/twitter', 'core-embed/youtube', 'core-embed/facebook', 'core-embed/instagram', 'core-embed/wordpress', 'core-embed/soundcloud', 'core-embed/spotify', 'core-embed/flickr', 'core-embed/vimeo', 'core-embed/animoto', 'core-embed/cloudup', 'core-embed/collegehumor', 'core-embed/dailymotion', 'core-embed/funnyordie', 'core-embed/hulu', 'core-embed/imgur', 'core-embed/issuu', 'core-embed/kickstarter', 'core-embed/meetup-com', 'core-embed/mixcloud', 'core-embed/photobucket', 'core-embed/polldaddy', 'core-embed/reddit', 'core-embed/reverbnation', 'core-embed/screencast', 'core-embed/scribd', 'core-embed/slideshare', 'core-embed/smugmug', 'core-embed/speaker', 'core-embed/speaker-deck', 'core-embed/ted', 'core-embed/tumblr', 'core-embed/videopress', 'core-embed/wordpress-tv'];
+  return validBlockTypes.includes(name);
+}
 
 /***/ }),
 

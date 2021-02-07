@@ -3,6 +3,8 @@
  * Plugin Name:     Animate WP Blocks - Animate.css for Gutenberg
  * Description:     Add animation controls to each and every Gutenberg Block! Runs on Animate.css v4.
  * Version:         2.0.1
+ * Author:          Damian Kress
+ * Author URI:      https://www.damiankress.de
  * License:         GPL-2.0-or-later
  * Text Domain:     animate-wp-blocks
  *
@@ -14,13 +16,9 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
+add_action('init', 'gb_animate_block_assets');
 /**
  * Enqueue Gutenberg block assets for both frontend + backend.
- *
- * Assets enqueued:
- * 1. blocks.style.build.css - Frontend + Backend.
- * 2. blocks.build.js - Backend.
- * 3. blocks.editor.build.css - Backend.
  *
  * @uses {wp-blocks} for block type registration & related functions.
  * @uses {wp-element} for WP Element abstraction — structure of blocks.
@@ -29,49 +27,48 @@ if (!defined('ABSPATH')) {
  * @since 1.0.0
  */
 function gb_animate_block_assets()
-{ // phpcs:ignore
+{
     // Register block styles for both frontend + backend.
     wp_register_style(
-        'gb_animate-style-css', // Handle.
-        plugins_url('build/style-index.css', __FILE__), // Block style CSS.
-        array(), // Dependency to include the CSS after it.
-        'v2.0.1' // filemtime( plugin_dir_path( __FILE__ ) . 'build/blocks.style.build.css' ) // Version: File modification time.
+        'gb_animate-style-css',
+        plugins_url('build/style-index.css', __FILE__),
+        array(), // dependencies are imported & pre-packaged
+        'v2.0.1'
     );
 
     // Register block editor script for backend.
     wp_register_script(
-        'gb_animate-block-js', // Handle.
-        plugins_url('build/index.js', __FILE__), // Block.build.js: We register the block here. Built with Webpack.
-        array(), // Dependencies, defined above.
-        null, // filemtime( plugin_dir_path( __FILE__ ) . 'build/blocks.build.js' ), // Version: filemtime — Gets file modification time.
-        true // Enqueue the script in the footer.
+        'gb_animate-block-js',
+        plugins_url('build/index.js', __FILE__),
+        array(),
+        null,
+        true
     );
 
     // Register block editor styles for backend.
     wp_register_style(
-        'gb_animate-block-editor-css', // Handle.
-        plugins_url('build/index.css', __FILE__), // Block editor CSS.
-        array('wp-edit-blocks'), // Dependency to include the CSS after it.
-        null // filemtime( plugin_dir_path( __FILE__ ) . 'build/blocks.editor.build.css' ) // Version: File modification time.
+        'gb_animate-block-editor-css',
+        plugins_url('build/index.css', __FILE__),
+        array('wp-edit-blocks'),
+        null
     );
 
     // WP Localized globals. Use dynamic PHP stuff in JavaScript via `animateGlobal` object.
     wp_localize_script(
         'gb_animate-block-js',
-        'animateGlobal', // Array containing dynamic data for a JS Global.
+        'animateGlobal',
         [
             'pluginDirPath' => plugin_dir_path(__FILE__),
             'pluginDirUrl'  => plugin_dir_url(__FILE__),
-            // Add more data here that you want to access from `animateGlobal` object.
         ]
     );
 
     // Enqueue frontend script
     if (!is_admin()) {
         wp_enqueue_script(
-            'gb_animate-animate-script', // Handle.
-            plugins_url('src/animate.js', __FILE__), // Block style CSS.
-            array(), // Dependency to include the CSS after it.
+            'gb_animate-animate-script',
+            plugins_url('src/assets/animate.js', __FILE__),
+            array(),
             null,
             true
         );
@@ -99,6 +96,3 @@ function gb_animate_block_assets()
         )
     );
 }
-
-// Hook: Block assets.
-add_action('init', 'gb_animate_block_assets');
