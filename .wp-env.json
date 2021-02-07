@@ -1,9 +1,0 @@
-{
-	"core": "https://wordpress.org/wordpress-5.6.1.zip",
-	"plugins": [
-		"."
-	],
-	"config": {
-		"WP_DEBUG_DISPLAY": true
-	}
-}

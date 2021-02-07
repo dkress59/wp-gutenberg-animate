@@ -1,5 +1,5 @@
 === Test Block ===
-Contributors:      The WordPress Contributors
+Contributors:      dkress59
 Tags:              block
 Requires at least: 5.0.0
 Tested up to:      5.6.1
@@ -12,10 +12,7 @@ Add animation controls to each and every Gutenberg Block! Runs on Animate.css v4
 
 == Description ==
 
-This is the long description. No limit, and you can use Markdown (as well as in the following sections).
-
-For backwards compatibility, if this section is missing, the full length of the short description will be used, and
-Markdown parsed.
+Install the plugin and choose from a hundred animations for any of your Blocks. It's that easy!
 
 == Installation ==
 
@@ -41,11 +38,10 @@ Animations Controls are instantly available on **any block** upon plugin activat
 
 == Screenshots ==
 
-1. This screen shot description corresponds to screenshot-1.(png|jpg|jpeg|gif). Note that the screenshot is taken from
-the /assets directory or the directory that contains the stable readme.txt (tags or trunk). Screenshots in the /assets
-directory take precedence. For example, `/assets/screenshot-1.png` would win over `/tags/4.3/screenshot-1.png`
-(or jpg, jpeg, gif).
-2. This is the second screen shot
+1. The plugin provides any block with four new animation controls:
+    Type, Repetitions, Duration and Delay.
+2. Animate.css comes with almost a hundred animation types!
+3. You can add animations to virtually any Gutenberg Block.
 
 == Changelog ==
 
