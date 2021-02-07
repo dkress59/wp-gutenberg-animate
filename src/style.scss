@@ -1,0 +1,18 @@
+/**
+ * #.# Styles
+ *
+ * CSS for both Frontend+Backend.
+ */
+
+* {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-backface-visibility: hidden;
+  box-shadow: 0 0 1px rgba(255, 255, 255, 0);
+}
+
+animate {
+  display: inline-block;
+}
+
+@import './animate.min';
