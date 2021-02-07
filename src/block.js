@@ -1,6 +1,5 @@
 import './editor.scss'
 import './style.scss'
-
 import { animationClassNames } from './animations'
 
 import { assign } from 'lodash'

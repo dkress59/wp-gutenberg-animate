@@ -9,15 +9,6 @@
  * @package         animate-wp-blocks
  */
 
-/**
- * Blocks Initializer
- *
- * Enqueue CSS/JS of all the blocks.
- *
- * @since   1.0.0
- * @package CGB
- */
-
 // Exit if accessed directly.
 if (!defined('ABSPATH')) {
     exit;
@@ -43,15 +34,15 @@ function gb_animate_block_assets()
     wp_register_style(
         'gb_animate-style-css', // Handle.
         plugins_url('build/style-index.css', __FILE__), // Block style CSS.
-        is_admin() ? array('wp-editor') : null, // Dependency to include the CSS after it.
-        rand(111111, 999999) // filemtime( plugin_dir_path( __FILE__ ) . 'build/blocks.style.build.css' ) // Version: File modification time.
+        array(), // Dependency to include the CSS after it.
+        'v2.0.1' // filemtime( plugin_dir_path( __FILE__ ) . 'build/blocks.style.build.css' ) // Version: File modification time.
     );
 
     // Register block editor script for backend.
     wp_register_script(
         'gb_animate-block-js', // Handle.
         plugins_url('build/index.js', __FILE__), // Block.build.js: We register the block here. Built with Webpack.
-        array('wp-blocks', 'wp-i18n', 'wp-element', 'wp-editor'), // Dependencies, defined above.
+        array(), // Dependencies, defined above.
         null, // filemtime( plugin_dir_path( __FILE__ ) . 'build/blocks.build.js' ), // Version: filemtime — Gets file modification time.
         true // Enqueue the script in the footer.
     );
@@ -64,14 +55,14 @@ function gb_animate_block_assets()
         null // filemtime( plugin_dir_path( __FILE__ ) . 'build/blocks.editor.build.css' ) // Version: File modification time.
     );
 
-    // WP Localized globals. Use dynamic PHP stuff in JavaScript via `cgbGlobal` object.
+    // WP Localized globals. Use dynamic PHP stuff in JavaScript via `animateGlobal` object.
     wp_localize_script(
         'gb_animate-block-js',
-        'cgbGlobal', // Array containing dynamic data for a JS Global.
+        'animateGlobal', // Array containing dynamic data for a JS Global.
         [
             'pluginDirPath' => plugin_dir_path(__FILE__),
             'pluginDirUrl'  => plugin_dir_url(__FILE__),
-            // Add more data here that you want to access from `cgbGlobal` object.
+            // Add more data here that you want to access from `animateGlobal` object.
         ]
     );
 
@@ -97,7 +88,7 @@ function gb_animate_block_assets()
      * @since 1.16.0
      */
     register_block_type(
-        'dk/gb-animate',
+        'dkress/gb-animate',
         array(
             // Enqueue blocks.style.build.css on both frontend & backend.
             'style'         => 'gb_animate-style-css',
