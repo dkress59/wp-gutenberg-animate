@@ -2,7 +2,7 @@
 /**
  * Plugin Name:     Animate WP Blocks - Animate.css for Gutenberg
  * Description:     Add animation controls to each and every Gutenberg Block! Runs on Animate.css v4.
- * Version:         2.0.1
+ * Version:         2.0.2
  * Author:          Damian Kress
  * Author URI:      https://www.damiankress.de
  * License:         GPL-2.0-or-later
@@ -30,7 +30,7 @@ function gb_animate_block_assets()
 {
     // Register block styles for both frontend + backend.
     wp_register_style(
-        'gb_animate-style-css',
+        'gb-animate-style-css',
         plugins_url('build/style-index.css', __FILE__),
         array(), // dependencies are imported & pre-packaged
         'v2.0.1'
@@ -38,7 +38,7 @@ function gb_animate_block_assets()
 
     // Register block editor script for backend.
     wp_register_script(
-        'gb_animate-block-js',
+        'gb-animate-block-js',
         plugins_url('build/index.js', __FILE__),
         array(),
         null,
@@ -47,7 +47,7 @@ function gb_animate_block_assets()
 
     // Register block editor styles for backend.
     wp_register_style(
-        'gb_animate-block-editor-css',
+        'gb-animate-block-editor-css',
         plugins_url('build/index.css', __FILE__),
         array('wp-edit-blocks'),
         null
@@ -55,7 +55,7 @@ function gb_animate_block_assets()
 
     // WP Localized globals. Use dynamic PHP stuff in JavaScript via `animateGlobal` object.
     wp_localize_script(
-        'gb_animate-block-js',
+        'gb-animate-block-js',
         'animateGlobal',
         [
             'pluginDirPath' => plugin_dir_path(__FILE__),
@@ -66,7 +66,7 @@ function gb_animate_block_assets()
     // Enqueue frontend script
     if (!is_admin()) {
         wp_enqueue_script(
-            'gb_animate-animate-script',
+            'gb-animate-animate-script',
             plugins_url('src/assets/animate.js', __FILE__),
             array(),
             null,
@@ -88,11 +88,32 @@ function gb_animate_block_assets()
         'dkress/gb-animate',
         array(
             // Enqueue blocks.style.build.css on both frontend & backend.
-            'style'         => 'gb_animate-style-css',
+            'style'         => 'gb-animate-style-css',
             // Enqueue blocks.build.js in the editor only.
-            'editor_script' => 'gb_animate-block-js',
+            'editor_script' => 'gb-animate-block-js',
             // Enqueue blocks.editor.build.css in the editor only.
-            'editor_style'  => 'gb_animate-block-editor-css',
+            'editor_style'  => 'gb-animate-block-editor-css',
         )
     );
 }
+
+
+// Plugin Settings Page
+/* add_filter('plugin_action_links_' . plugin_basename(__FILE__), 'gb_animate_settings_page');
+function gb_animate_settings_page($links)
+{
+	$mylinks = ['<a href="' . admin_url('options-general.php?page=animate-wp-blocks') . '">Settings</a>'];
+	 $links = array_merge($links, $mylinks);
+	 return $links;
+}
+
+function gb_animate_custom_plugin_page()
+{
+    add_options_page('Animate WP Blocks – Settings', 'Animate Blocks', 'manage_options', 'animate-wp-blocks', 'options_page');
+}
+add_action('admin_menu', 'gb_animate_custom_plugin_page');
+
+function options_page()
+{
+    echo "Hello devs";
+} */

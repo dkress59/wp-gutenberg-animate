@@ -9,6 +9,11 @@
   -moz-osx-font-smoothing: grayscale;
   -webkit-backface-visibility: hidden;
   box-shadow: 0 0 1px rgba(255, 255, 255, 0);
+	&[data-onscroll="true"] {
+		&:not(.animate__animated) {
+			visibility: hidden;
+		}
+	}
 }
 
 animate {

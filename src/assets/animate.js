@@ -1,42 +1,77 @@
-(() => {
-	'use strict'
+/* eslint-disable @wordpress/no-global-event-listener */
+'use strict'
 
-	const animateCSS = ( selector, exceptions, callback ) => {
-		if ( ! selector ) return
+function isInViewport(element) {
+	let top = element.offsetTop
+	let left = element.offsetLeft
+	const width = element.offsetWidth
+	const height = element.offsetHeight
 
-		const cb =
-			callback && typeof callback === 'function' ? callback : () => {}
-
-		for ( const node of document.body.querySelectorAll( selector ) )
-			if ( ! exceptions || ! node.matches( exceptions ) ) {
-				const animation = node.getAttribute( 'data-animation' ) || null
-				const duration = node.getAttribute( 'data-duration' ) || null
-				const delay = node.getAttribute( 'data-delay' ) || null
-				const repeat = node.getAttribute( 'data-repeat' ) || null
-
-				if ( animation ) {
-					if ( duration )
-						node.style.setProperty(
-							'--animate-duration',
-							duration + 'ms'
-						)
-					if ( delay ) node.style.animationDelay = delay + 'ms'
-					if ( repeat ) node.style.animationIterationCount = repeat
-					node.classList.add( 'animate__animated', animation )
-
-					node.addEventListener( 'animationend', () => {
-						node.classList.remove( 'animate__animated', animation )
-						node.style.animationIterationCount = ''
-						node.style.animationDelay = ''
-						node.style.removeProperty( '--animate-duration' )
-
-						if ( cb ) cb( node )
-					} )
-				}
-			}
+	while (element.offsetParent) {
+	  element = element.offsetParent
+	  top += element.offsetTop
+	  left += element.offsetLeft
 	}
 
-	animateCSS( '*[data-animated="true"]', false, ( node ) =>
-		node.classList.add( 'animate__complete' )
+	return (
+	  top >= window.pageYOffset &&
+	  left >= window.pageXOffset &&
+	  (top + height) <= (window.pageYOffset + window.innerHeight) &&
+	  (left + width) <= (window.pageXOffset + window.innerWidth)
 	)
-})()
+}
+
+function animateCSS(elements, exceptions, callback) {
+	if (!elements || !elements.length) return
+
+	const cb = callback && typeof callback === 'function'
+		? callback
+		: () => {}
+
+	for (const element of elements)
+		if ( !exceptions || !element.matches(exceptions) ) {
+			const animation = element.getAttribute( 'data-animation' ) || null
+			const duration = element.getAttribute( 'data-duration' ) || null
+			const delay = element.getAttribute( 'data-delay' ) || null
+			const repeat = element.getAttribute( 'data-repeat' ) || null
+
+			if ( animation ) {
+				if ( duration )
+					element.style.setProperty(
+						'--animate-duration',
+						duration + 'ms'
+					)
+				if ( delay ) element.style.animationDelay = delay + 'ms'
+				if ( repeat ) element.style.animationIterationCount = repeat
+				element.classList.add( 'animate__animated', animation )
+
+				element.addEventListener( 'animationend', () => {
+					element.classList.remove( 'animate__animated', animation )
+					element.style.animationIterationCount = ''
+					element.style.animationDelay = ''
+					element.style.removeProperty( '--animate-duration' )
+
+					if ( cb ) cb( element )
+				} )
+			}
+		}
+}
+
+window.addEventListener('load', () => {
+	animateCSS(document.body.querySelectorAll('*[data-animated="true"]:not([data-onscroll="true"])'), false, (element) => {
+		element.classList.add( 'animate__complete' )
+	})
+})
+
+window.addEventListener('scroll', () => {
+	if (window.scrollTimeout) clearTimeout(window.scrollTimeout)
+	window.scrollTimeout = setTimeout(() => {
+		const elements = document.body.querySelectorAll('*[data-onscroll="true"]')
+		for (const element of elements)
+			if (isInViewport(element)) animateCSS([element], null, (el) => void el.setAttribute('data-onscroll', 'false'))
+			//else element.classList.remove('animate__animated') // …
+
+		window.scrollTimeout = null
+	}, 160)
+})
+
