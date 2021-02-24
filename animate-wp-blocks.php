@@ -2,7 +2,7 @@
 /**
  * Plugin Name:     Animate WP Blocks - Animate.css for Gutenberg
  * Description:     Add animation controls to each and every Gutenberg Block! Runs on Animate.css v4.
- * Version:         2.0.2
+ * Version:         2.0.3
  * Author:          Damian Kress
  * Author URI:      https://www.damiankress.de
  * License:         GPL-2.0-or-later
@@ -33,7 +33,7 @@ function gb_animate_block_assets()
         'gb-animate-style-css',
         plugins_url('build/style-index.css', __FILE__),
         array(), // dependencies are imported & pre-packaged
-        'v2.0.1'
+        'v2.0.3'
     );
 
     // Register block editor script for backend.

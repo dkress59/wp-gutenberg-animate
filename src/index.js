@@ -25,7 +25,7 @@ export const addAnimateBlockControls = createHigherOrderComponent(BlockEdit => {
 			isSelected,
 			setAttributes,
 			attributes: {
-				gbaType, gbaDuration, gbaDelay, gbaRepeat, gbaScroll
+				gbaType, gbaDuration, gbaDelay, gbaRepeat, gbaScroll, gbaRelative
 			}
 		} = props
 
@@ -100,10 +100,17 @@ export const addAnimateBlockControls = createHigherOrderComponent(BlockEdit => {
 
 						<ToggleControl
 							className="scroll"
-							help="only begin the animation after the element is scrolled into the viewport"
-							label={ __('Only on scroll', 'dk-gb/animate') }
+							help={__('only begin the animation after current element is scrolled into the viewport', 'dk-gb/animate')}
+							label={ __('On scroll', 'dk-gb/animate') }
 							checked={ gbaScroll }
 							onChange={ value => setAttributes({ gbaScroll: value ? 'true' : 'false' }) }
+						/>
+						<TextControl
+							className="relative"
+							help={ __('begin animation if another element is scrolled into view', 'dk-gb/animate') }
+							placeholder="CSS selector"
+							value={ gbaRelative }
+							onChange={ value => setAttributes({ gbaRelative: value }) }
 						/>
 
 					</PanelBody>
@@ -113,6 +120,7 @@ export const addAnimateBlockControls = createHigherOrderComponent(BlockEdit => {
 		return <BlockEdit { ...props } />
 	}
 }, 'addAnimateBlockControls')
+addFilter('editor.BlockEdit', 'dkress/gb-animate', addAnimateBlockControls)
 
 /**
  * Filters registered block settings, extending attributes with our custom data.
@@ -139,12 +147,16 @@ export function addAttribute(settings) {
 			},
 			gbaScroll: {
 				type: 'string'
+			},
+			gbaRelative: {
+				type: 'string'
 			}
 		})
 
 
 	return settings
 }
+addFilter('blocks.registerBlockType', 'dkress/gb-animate/add-attr', addAttribute)
 
 /**
  * Override props assigned to save component to inject our custom data.
@@ -168,14 +180,13 @@ export function addSaveProps(extraProps, blockType, attributes) {
 		extraProps['data-duration'] = attributes.gbaDuration
 		extraProps['data-delay'] = attributes.gbaDelay
 		extraProps['data-repeat'] = attributes.gbaRepeat
+
 		extraProps['data-onscroll'] = attributes.gbaScroll
+		extraProps['data-relative'] = attributes.gbaRelative
 	}
 
 	return extraProps
 }
-
-addFilter('editor.BlockEdit', 'dkress/gb-animate', addAnimateBlockControls)
-addFilter('blocks.registerBlockType', 'dkress/gb-animate/add-attr', addAttribute)
 addFilter('blocks.getSaveContent.extraProps', 'dkress/gb-animate/add-props', addSaveProps)
 
 

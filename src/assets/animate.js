@@ -58,7 +58,7 @@ function animateCSS(elements, exceptions, callback) {
 }
 
 window.addEventListener('load', () => {
-	animateCSS(document.body.querySelectorAll('*[data-animated="true"]:not([data-onscroll="true"])'), false, (element) => {
+	animateCSS(document.body.querySelectorAll('*[data-animated="true"]:not([data-onscroll="true"])'), null, (element) => {
 		element.classList.add( 'animate__complete' )
 	})
 })
@@ -67,10 +67,14 @@ window.addEventListener('scroll', () => {
 	if (window.scrollTimeout) clearTimeout(window.scrollTimeout)
 	window.scrollTimeout = setTimeout(() => {
 		const elements = document.body.querySelectorAll('*[data-onscroll="true"]')
-		for (const element of elements)
-			if (isInViewport(element)) animateCSS([element], null, (el) => void el.setAttribute('data-onscroll', 'false'))
-			//else element.classList.remove('animate__animated') // …
-
+		for (const element of elements) {
+			const relative = element.getAttribute('data-relative') || null
+			const shouldAnimate = relative
+				? isInViewport(document.querySelectorAll(relative)[0])
+				: isInViewport(element)
+			if (shouldAnimate)
+				animateCSS([element], null, (el) => void el.setAttribute('data-onscroll', 'false'))
+		} // else { element.classList.remove('animate__animated') … }
 		window.scrollTimeout = null
 	}, 160)
 })
