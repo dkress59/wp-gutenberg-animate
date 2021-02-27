@@ -2,6 +2,22 @@
 'use strict'
 
 function isInViewport(element) {
+	const el = element
+	let top = element.offsetTop
+
+	while (element.offsetParent) {
+	  element = element.offsetParent
+	  top += element.offsetTop
+	}
+
+	return (
+	  isCompletelyInViewport(el) ||
+	  top >= window.pageYOffset &&
+	  top <= window.pageYOffset + window.height
+	)
+}
+
+function isCompletelyInViewport(element) {
 	let top = element.offsetTop
 	let left = element.offsetLeft
 	const width = element.offsetWidth
