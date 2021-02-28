@@ -1,6 +1,9 @@
 /* eslint-disable @wordpress/no-global-event-listener */
 'use strict'
 
+//TODO: user-selectable 'isInViewport | isCompletelyInViewport'
+//		switch in plugin settings and/or block controls
+
 function isInViewport(element) {
 	const el = element
 	let top = element.offsetTop
@@ -37,7 +40,7 @@ function isCompletelyInViewport(element) {
 	)
 }
 
-function animateCSS(elements, exceptions, callback) {
+function animateCSS(elements, exceptions = null, callback = () => {}) {
 	if (!elements || !elements.length) return
 
 	const cb = callback && typeof callback === 'function'
@@ -83,13 +86,19 @@ window.addEventListener('scroll', () => {
 	if (window.scrollTimeout) clearTimeout(window.scrollTimeout)
 	window.scrollTimeout = setTimeout(() => {
 		const elements = document.body.querySelectorAll('*[data-onscroll="true"]')
+		let i = 0
 		for (const element of elements) {
 			const relative = element.getAttribute('data-relative') || null
 			const shouldAnimate = relative
 				? isInViewport(document.querySelectorAll(relative)[0])
 				: isInViewport(element)
-			if (shouldAnimate)
-				animateCSS([element], null, (el) => void el.setAttribute('data-onscroll', 'false'))
+			if (shouldAnimate) {
+				setTimeout(() => { // TODO: animation control
+					element.setAttribute('data-onscroll', 'false')
+					animateCSS([element])
+				}, i * 100) // TODO: animation control
+				i++
+			}
 		} // else { element.classList.remove('animate__animated') … }
 		window.scrollTimeout = null
 	}, 160)
