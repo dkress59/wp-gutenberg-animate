@@ -56,9 +56,9 @@ function isCompletelyInViewport(element) {
 }
 
 function selectTrigger(mode) {
-	if (mode === '1') return isInViewport
-	if (mode === '2') return isCompletelyInViewport
-	return isAboveViewport
+	if (mode === '1') return isCompletelyInViewport
+	if (mode === '2') return isAboveViewport
+	return isInViewport
 }
 
 function animateCSS(elements, exceptions = null, callback = () => {}) {

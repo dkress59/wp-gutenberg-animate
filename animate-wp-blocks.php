@@ -168,13 +168,13 @@ function gb_animate_options_page() {
 						value="<? echo esc_attr(get_option('gb-animate-scroll-trigger', 0)) ?>"
 				>
 					<option value="0">
-						<?= _('…is above or partially inside the viewport', 'dkress/gb-animate') ?>
-					</option>
-					<option value="1">
 						<?= _('…is partially inside viewport', 'dkress/gb-animate') ?>
 					</option>
-					<option value="2">
+					<option value="1">
 						<?= _('…completely fits into the viewport', 'dkress/gb-animate') ?>
+					</option>
+					<option value="2">
+						<?= _('…is above or partially inside the viewport', 'dkress/gb-animate') ?>
 					</option>
 				</select>
 			</label>

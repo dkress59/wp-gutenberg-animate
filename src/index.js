@@ -39,11 +39,15 @@ export const addAnimateBlockControls = createHigherOrderComponent(BlockEdit => {
 
 		const triggers = [
 			{
-				label: 'above',
-				value: '0',
+				label: 'default',
+				value: 'default',
 			},
 			{
 				label: 'partial',
+				value: '0',
+			},
+			{
+				label: 'above',
 				value: '1',
 			},
 			{
@@ -210,7 +214,7 @@ export function addSaveProps(extraProps, blockType, attributes) {
 
 		extraProps['data-onscroll'] = attributes.gbaScroll
 		extraProps['data-relative'] = attributes.gbaRelative
-		extraProps['data-onscroll-trigger'] = attributes.gbaTrigger
+		if (attributes.gbaTrigger !== 'default') extraProps['data-onscroll-trigger'] = attributes.gbaTrigger
 	}
 
 	return extraProps
