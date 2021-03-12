@@ -1,10 +1,25 @@
 /* eslint-disable @wordpress/no-global-event-listener */
 'use strict'
 
-//TODO: user-selectable 'isInViewport | isCompletelyInViewport'
-//		switch in plugin settings and/or block controls
+//TODO: Instructions inside Plugin Settings
 
+// If element is either partially or completely inside the viewport
 function isInViewport(element) {
+	let top = element.offsetTop
+
+	while (element.offsetParent) {
+	  element = element.offsetParent
+	  top += element.offsetTop
+	}
+
+	return (
+	  top >= window.pageYOffset &&
+	  top <= window.pageYOffset + window.innerHeight
+	)
+}
+
+// If element is above the viewport (or partially/entirely inside of it)
+function isAboveViewport(element) {
 	const el = element
 	let top = element.offsetTop
 
@@ -14,12 +29,12 @@ function isInViewport(element) {
 	}
 
 	return (
-	  isCompletelyInViewport(el) ||
-	  top >= window.pageYOffset &&
-	  top <= window.pageYOffset + window.height
+      isInViewport(el) ||
+	  top <= window.pageYOffset ? true : false
 	)
 }
 
+// If element is completely (top, right, bottom, left) inside the viewport
 function isCompletelyInViewport(element) {
 	let top = element.offsetTop
 	let left = element.offsetLeft
@@ -38,6 +53,12 @@ function isCompletelyInViewport(element) {
 	  (top + height) <= (window.pageYOffset + window.innerHeight) &&
 	  (left + width) <= (window.pageXOffset + window.innerWidth)
 	)
+}
+
+function selectTrigger(mode) {
+	if (mode === '1') return isInViewport
+	if (mode === '2') return isCompletelyInViewport
+	return isAboveViewport
 }
 
 function animateCSS(elements, exceptions = null, callback = () => {}) {
@@ -85,21 +106,26 @@ window.addEventListener('load', () => {
 window.addEventListener('scroll', () => {
 	if (window.scrollTimeout) clearTimeout(window.scrollTimeout)
 	window.scrollTimeout = setTimeout(() => {
+		// eslint-disable-next-line no-undef
+		const globalOnScrollTrigger = selectTrigger(animateGlobal.scrollTrigger)
 		const elements = document.body.querySelectorAll('*[data-onscroll="true"]')
 		let i = 0
 		for (const element of elements) {
 			const relative = element.getAttribute('data-relative') || null
+			const scrollCondition = !element.getAttribute('data-onscroll-trigger')
+				? globalOnScrollTrigger
+				: selectTrigger(element.getAttribute('data-onscroll-trigger')) // TODO: animation control
 			const shouldAnimate = relative
-				? isInViewport(document.querySelectorAll(relative)[0])
-				: isInViewport(element)
+				? scrollCondition(document.querySelector(relative))
+				: scrollCondition(element)
 			if (shouldAnimate) {
 				setTimeout(() => { // TODO: animation control
 					element.setAttribute('data-onscroll', 'false')
 					animateCSS([element])
-				}, i * 100) // TODO: animation control
+				}, i * 100)
 				i++
 			}
-		} // else { element.classList.remove('animate__animated') … }
+		}
 		window.scrollTimeout = null
 	}, 160)
 })

@@ -25,7 +25,7 @@ export const addAnimateBlockControls = createHigherOrderComponent(BlockEdit => {
 			isSelected,
 			setAttributes,
 			attributes: {
-				gbaType, gbaDuration, gbaDelay, gbaRepeat, gbaScroll, gbaRelative
+				gbaType, gbaDuration, gbaDelay, gbaRepeat, gbaScroll, gbaRelative, gbaTrigger
 			}
 		} = props
 
@@ -36,6 +36,21 @@ export const addAnimateBlockControls = createHigherOrderComponent(BlockEdit => {
 			{ label: 'none', value: '' },
 			{ label: '————', value: '', disabled: true },
 		)
+
+		const triggers = [
+			{
+				label: 'above',
+				value: '0',
+			},
+			{
+				label: 'partial',
+				value: '1',
+			},
+			{
+				label: 'complete',
+				value: '2',
+			},
+		]
 
 		if (isValidBlockType(name) && isSelected)
 			return <Fragment>
@@ -113,6 +128,15 @@ export const addAnimateBlockControls = createHigherOrderComponent(BlockEdit => {
 							onChange={ value => setAttributes({ gbaRelative: value }) }
 						/>
 
+						<SelectControl
+							label={ __('Condition', 'dk-gb/animate') }
+							value={ gbaTrigger || '0' }
+							onChange={ trigger => {
+									setAttributes({ gbaTrigger: trigger })
+								} }
+							options={ triggers }
+							/>
+
 					</PanelBody>
 				</InspectorControls>
 			</Fragment>
@@ -150,7 +174,10 @@ export function addAttribute(settings) {
 			},
 			gbaRelative: {
 				type: 'string'
-			}
+			},
+			gbaTrigger: {
+				type: 'string'
+			},
 		})
 
 
@@ -183,6 +210,7 @@ export function addSaveProps(extraProps, blockType, attributes) {
 
 		extraProps['data-onscroll'] = attributes.gbaScroll
 		extraProps['data-relative'] = attributes.gbaRelative
+		extraProps['data-onscroll-trigger'] = attributes.gbaTrigger
 	}
 
 	return extraProps
