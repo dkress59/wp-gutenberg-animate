@@ -128,7 +128,7 @@ export const addAnimateBlockControls = createHigherOrderComponent(BlockEdit => {
 							className="relative"
 							help={ __('begin animation if another element is scrolled into view', 'dk-gb/animate') }
 							placeholder="CSS selector"
-							value={ gbaRelative }
+							value={ gbaRelative || undefined }
 							onChange={ value => setAttributes({ gbaRelative: value }) }
 						/>
 
