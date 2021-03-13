@@ -14,11 +14,13 @@ Add animation controls to each and every Gutenberg Block! Runs on Animate.css v4
 
 Install the plugin and choose from a hundred animations for any of your Blocks. It's that easy!
 
+Now also includes settings for scroll-conditioned animations.
+
 == Installation ==
 
 You can simply install this plugin to your WordPress installation and you are ready to go!
 
-* Upload the plugin files to the `/wp-content/plugins/animate-wp-blocks` directory, or install the plugin through the WordPress plugins screen directly.
+* Install the plugin through the WordPress plugins admin screen, or upload the plugin files to the `/wp-content/plugins/animate-wp-blocks` directory.
 * Activate the plugin through the 'Plugins' screen in WordPress
 
 
