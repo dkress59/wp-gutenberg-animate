@@ -6,7 +6,7 @@ import { assign } from 'lodash'
 import { __ } from '@wordpress/i18n'
 import { Fragment, Component } from '@wordpress/element'
 import { addFilter } from '@wordpress/hooks'
-import { TextControl, SelectControl, PanelBody } from '@wordpress/components'
+import { TextControl, SelectControl, PanelBody, ToggleControl } from '@wordpress/components'
 import { createHigherOrderComponent } from '@wordpress/compose'
 import { InspectorControls } from '@wordpress/block-editor'
 
@@ -15,7 +15,7 @@ import { InspectorControls } from '@wordpress/block-editor'
  * adding our custom control.
  *
  * @param {Function | Component} BlockEdit Original component.
- * 
+ *
  * @return {string} Wrapped component.
  */
 export const addAnimateBlockControls = createHigherOrderComponent(BlockEdit => {
@@ -25,7 +25,7 @@ export const addAnimateBlockControls = createHigherOrderComponent(BlockEdit => {
 			isSelected,
 			setAttributes,
 			attributes: {
-				gbaType, gbaDuration, gbaDelay, gbaRepeat
+				gbaType, gbaDuration, gbaDelay, gbaRepeat, gbaScroll, gbaRelative, gbaTrigger
 			}
 		} = props
 
@@ -36,6 +36,25 @@ export const addAnimateBlockControls = createHigherOrderComponent(BlockEdit => {
 			{ label: 'none', value: '' },
 			{ label: '————', value: '', disabled: true },
 		)
+
+		const triggers = [
+			{
+				label: 'default',
+				value: 'default',
+			},
+			{
+				label: 'partial',
+				value: '0',
+			},
+			{
+				label: 'above',
+				value: '1',
+			},
+			{
+				label: 'complete',
+				value: '2',
+			},
+		]
 
 		if (isValidBlockType(name) && isSelected)
 			return <Fragment>
@@ -98,6 +117,30 @@ export const addAnimateBlockControls = createHigherOrderComponent(BlockEdit => {
 							onChange={ value => setAttributes({ gbaDelay: value }) }
 						/>
 
+						<ToggleControl
+							className="scroll"
+							help={__('only begin the animation after current element is scrolled into the viewport', 'dk-gb/animate')}
+							label={ __('On scroll', 'dk-gb/animate') }
+							checked={ gbaScroll }
+							onChange={ value => setAttributes({ gbaScroll: value ? 'true' : 'false' }) }
+						/>
+						<TextControl
+							className="relative"
+							help={ __('begin animation if another element is scrolled into view', 'dk-gb/animate') }
+							placeholder="CSS selector"
+							value={ gbaRelative || undefined }
+							onChange={ value => setAttributes({ gbaRelative: value }) }
+						/>
+
+						<SelectControl
+							label={ __('Condition', 'dk-gb/animate') }
+							value={ gbaTrigger || '0' }
+							onChange={ trigger => {
+									setAttributes({ gbaTrigger: trigger })
+								} }
+							options={ triggers }
+							/>
+
 					</PanelBody>
 				</InspectorControls>
 			</Fragment>
@@ -105,6 +148,7 @@ export const addAnimateBlockControls = createHigherOrderComponent(BlockEdit => {
 		return <BlockEdit { ...props } />
 	}
 }, 'addAnimateBlockControls')
+addFilter('editor.BlockEdit', 'dkress/gb-animate', addAnimateBlockControls)
 
 /**
  * Filters registered block settings, extending attributes with our custom data.
@@ -128,12 +172,22 @@ export function addAttribute(settings) {
 			},
 			gbaRepeat: {
 				type: 'string'
-			}
+			},
+			gbaScroll: {
+				type: 'string'
+			},
+			gbaRelative: {
+				type: 'string'
+			},
+			gbaTrigger: {
+				type: 'string'
+			},
 		})
 
 
 	return settings
 }
+addFilter('blocks.registerBlockType', 'dkress/gb-animate/add-attr', addAttribute)
 
 /**
  * Override props assigned to save component to inject our custom data.
@@ -142,7 +196,7 @@ export function addAttribute(settings) {
  * @param {Object} extraProps Additional props applied to save element.
  * @param {Object} blockType  Block type.
  * @param {Object} attributes Current block attributes.
- * 
+ *
  * @return {Object} Filtered props applied to save element.
  */
 export function addSaveProps(extraProps, blockType, attributes) {
@@ -157,13 +211,14 @@ export function addSaveProps(extraProps, blockType, attributes) {
 		extraProps['data-duration'] = attributes.gbaDuration
 		extraProps['data-delay'] = attributes.gbaDelay
 		extraProps['data-repeat'] = attributes.gbaRepeat
+
+		extraProps['data-onscroll'] = attributes.gbaScroll
+		extraProps['data-relative'] = attributes.gbaRelative
+		if (attributes.gbaTrigger !== 'default') extraProps['data-onscroll-trigger'] = attributes.gbaTrigger
 	}
 
 	return extraProps
 }
-
-addFilter('editor.BlockEdit', 'dkress/gb-animate', addAnimateBlockControls)
-addFilter('blocks.registerBlockType', 'dkress/gb-animate/add-attr', addAttribute)
 addFilter('blocks.getSaveContent.extraProps', 'dkress/gb-animate/add-props', addSaveProps)
 
 

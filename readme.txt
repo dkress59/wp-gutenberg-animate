@@ -1,9 +1,9 @@
 === Animate WP Blocks ===
 Contributors:      dkress59
 Tags:              block
-Requires at least: 5.0.0
-Tested up to:      5.6.1
-Stable tag:        2.0.1
+Requires at least: 5.0
+Tested up to:      5.7
+Stable tag:        2.0.2
 Requires PHP:      5.4.0
 License:           GPL-2.0-or-later
 License URI:       https://www.gnu.org/licenses/gpl-2.0.html
@@ -14,11 +14,13 @@ Add animation controls to each and every Gutenberg Block! Runs on Animate.css v4
 
 Install the plugin and choose from a hundred animations for any of your Blocks. It's that easy!
 
+Now also includes settings for scroll-conditioned animations.
+
 == Installation ==
 
 You can simply install this plugin to your WordPress installation and you are ready to go!
 
-* Upload the plugin files to the `/wp-content/plugins/animate-wp-blocks` directory, or install the plugin through the WordPress plugins screen directly.
+* Install the plugin through the WordPress plugins admin screen, or upload the plugin files to the `/wp-content/plugins/animate-wp-blocks` directory.
 * Activate the plugin through the 'Plugins' screen in WordPress
 
 
@@ -26,7 +28,7 @@ You can simply install this plugin to your WordPress installation and you are re
 
 = Are there additional requirements to this Plugin? =
 
-No, this plugin ships packaged with Animate.css v4. You can use Animate.css anywhere on your WordPress site out-of-the-box, but the plugin loads an additional script for the Gutenberg Block integration. 
+No, this plugin ships packaged with Animate.css v4. You can use Animate.css anywhere on your WordPress site out-of-the-box, but the plugin loads an additional script for the Gutenberg Block integration.
 
 = Will this work anywhere on my WordPress site? =
 
@@ -45,10 +47,17 @@ Animations Controls are instantly available on **any block** upon plugin activat
 
 == Changelog ==
 
+= 2.0.2 =
+== Scroll Detection ==
+* Adds new scroll detection animation controls
+* Adds plugin settings page for explanations and global/default settings
+
 = 2.0.1 =
-* Release
+== Public Release ==
 * Imports WordPress NPM dependencies and pre-packages them
-* 
+*
 
 = 2.0.0 =
-* switch from Animate.css v3 to v4.
+== Animate.css v4 ==
+* refactored for public release
+* switched from Animate.css v3 to v4
