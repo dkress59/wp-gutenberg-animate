@@ -6,7 +6,7 @@ class AnimateBlocksAdmin
 	public $option_name  = 'gb-animate-scroll-trigger';
 
 	public function __construct() {
-		add_filter('plugin_action_links_' . plugin_basename(__DIR__), [$this, 'plugin_settings_page_link']);
+		add_filter('plugin_action_links_' . plugin_basename(dirname(__DIR__)) . '/animate-wp-blocks.php', [$this, 'plugin_settings_page_link']);
 		add_action('admin_menu', [$this, 'custom_plugin_page']);
 		add_action('admin_init', [$this, 'register_settings']);
 		add_action('admin_enqueue_scripts', [$this, 'enqueue_select2_jquery']);
