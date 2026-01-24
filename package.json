@@ -26,6 +26,6 @@
 		"@wordpress/babel-preset-default": "^5.0.1",
 		"@wordpress/eslint-plugin": "^8.0.2",
 		"@wordpress/scripts": "^13.0.2",
-		"lodash": "^4.17.20"
+		"lodash": "^4.17.23"
 	}
 }
